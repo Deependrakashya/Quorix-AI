@@ -54,9 +54,60 @@ class _HomeScreenState extends State<HomeScreen> {
                       );
                     },
                   ),
-                  Text(
-                    'Deep Mind AI ',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  Center(
+                    child: Container(
+                      constraints: BoxConstraints(
+                          maxWidth: 150), // Adjust max width as needed
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                          style: TextStyle(overflow: TextOverflow.ellipsis),
+                          hint: Text(
+                            'Deep Mind AI',
+                            style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
+                          ),
+                          isExpanded: true, // Allows content to fit properly
+                          iconSize:
+                              16, // Reduce the icon size for a smaller button
+                          items: [
+                            'AI Models',
+                            'gemini-2.0-flash',
+                            'gemini-2.0-flash-lite-preview-02-05',
+                            'gemini-2.0-pro-exp-02-05',
+                            'gemini-2.0-flash-thinking-exp-01-21',
+                            'gemini-1.5-flash-8b'
+                          ].map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(
+                                value,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                                style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 12), // Smaller text
+                              ),
+                            );
+                          }).toList(),
+                          onChanged: (newValue) {
+                            if (newValue != 'AI Models') {
+                              controller.aiModel.value = newValue.toString();
+                              Get.snackbar(
+                                  margin: EdgeInsets.all(20),
+                                  reverseAnimationCurve:
+                                      Curves.fastLinearToSlowEaseIn,
+                                  forwardAnimationCurve: Curves.easeOutCirc,
+                                  duration: Duration(seconds: 5),
+                                  "Model Changed Successfully",
+                                  colorText: Colors.green,
+                                  newValue.toString());
+                            }
+                          },
+                        ),
+                      ),
+                    ),
                   ),
                   IconButton(
                       onPressed: () {
