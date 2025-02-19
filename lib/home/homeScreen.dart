@@ -172,24 +172,33 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.add_a_photo_outlined),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          controller.sendQuery();
-                        },
-                        icon: const Icon(
-                          CupertinoIcons.arrow_up_circle_fill,
-                          size: 35,
+                  Obx(() {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        IconButton(
+                          onPressed: () {},
+                          icon: const Icon(Icons.add_a_photo_outlined),
                         ),
-                      ),
-                    ],
-                  ),
+                        IconButton(
+                          onPressed: () {
+                            controller.isloading.value
+                                ? null
+                                : controller.sendQuery();
+                          },
+                          icon: Icon(
+                            controller.isloading.value
+                                ? Icons.search_off
+                                : CupertinoIcons.arrow_up_circle_fill,
+                            size: 35,
+                            color: controller.isloading.value
+                                ? Colors.grey
+                                : Colors.black,
+                          ),
+                        ),
+                      ],
+                    );
+                  }),
                 ],
               ),
             ),

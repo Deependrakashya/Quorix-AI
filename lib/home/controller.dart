@@ -23,9 +23,7 @@ class Controller extends GetxController {
 
       qnAList.add(QnAModel(id: id, ques: question, reply: ""));
 
-      final data =
-          await AIChatSession('AIzaSyDXGt9gbIEMY8GG51qOoYaB5PEQEqh1pZM')
-              .sendMessage(question);
+      final data = await AIChatSession('').sendMessage(question);
 
       // Find and update the reply for the corresponding question
       int index = qnAList.indexWhere((item) => item.id == id);
