@@ -33,7 +33,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: CustomDrawer(context),
       body: SafeArea(
         child: Stack(alignment: AlignmentDirectional.topCenter, children: [
           Column(
@@ -46,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       return Align(
                         alignment: Alignment.topLeft,
                         child: IconButton(
-                          icon: Icon(Icons.align_horizontal_left_sharp),
+                          icon: const Icon(Icons.align_horizontal_left_sharp),
                           onPressed: () {
                             // Scaffold.of(context).openDrawer();
                           },
@@ -56,12 +55,20 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   Center(
                     child: Container(
-                      constraints: BoxConstraints(
+                      constraints: const BoxConstraints(
                           maxWidth: 150), // Adjust max width as needed
                       child: DropdownButtonHideUnderline(
                         child: DropdownButton<String>(
-                          style: TextStyle(overflow: TextOverflow.ellipsis),
-                          hint: Text(
+                          dropdownColor: Colors.white,
+                          borderRadius: BorderRadius.circular(20),
+                          icon: const Icon(
+                            Icons.touch_app_outlined,
+                            color: Colors.red,
+                            size: 20,
+                          ),
+                          style:
+                              const TextStyle(overflow: TextOverflow.ellipsis),
+                          hint: const Text(
                             'Deep Mind AI',
                             style: TextStyle(
                                 fontSize: 20,
@@ -72,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           iconSize:
                               16, // Reduce the icon size for a smaller button
                           items: [
-                            'AI Models',
+                            'AI Models  🚀 ',
                             'gemini-2.0-flash',
                             'gemini-2.0-flash-lite-preview-02-05',
                             'gemini-2.0-pro-exp-02-05',
@@ -92,14 +99,14 @@ class _HomeScreenState extends State<HomeScreen> {
                             );
                           }).toList(),
                           onChanged: (newValue) {
-                            if (newValue != 'AI Models') {
+                            if (newValue != 'AI Models  🚀 ') {
                               controller.aiModel.value = newValue.toString();
                               Get.snackbar(
-                                  margin: EdgeInsets.all(20),
+                                  margin: const EdgeInsets.all(20),
                                   reverseAnimationCurve:
                                       Curves.fastLinearToSlowEaseIn,
                                   forwardAnimationCurve: Curves.easeOutCirc,
-                                  duration: Duration(seconds: 5),
+                                  duration: const Duration(seconds: 5),
                                   "Model Changed Successfully",
                                   colorText: Colors.green,
                                   newValue.toString());
@@ -115,7 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         controller.textEditingController.clear();
                         controller.newScreen.value = true;
                       },
-                      icon: Icon(Icons.add_to_photos_outlined))
+                      icon: const Icon(Icons.add_to_photos_outlined))
                 ],
               ),
               Obx(() {
@@ -128,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               // Use ListView instead of SingleChildScrollView
                               children: [
-                                Center(
+                                const Center(
                                   child: Text(
                                     "Welcome ! \n How Can I Help You Today",
                                     textAlign: TextAlign.center,
@@ -137,28 +144,35 @@ class _HomeScreenState extends State<HomeScreen> {
                                         fontWeight: FontWeight.bold),
                                   ),
                                 ),
-                                SizedBox(height: 30),
-                                Wrap(
-                                  alignment: WrapAlignment.center,
-                                  spacing: 10,
-                                  children: [
-                                    SuggestionButton(
-                                        title: 'Summarise',
-                                        controller: controller),
-                                    SuggestionButton(
-                                        title: 'Help me to write',
-                                        controller: controller),
-                                    SuggestionButton(
-                                        title: 'tell me a story',
-                                        controller: controller),
-                                  ],
+                                const SizedBox(height: 30),
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * .75,
+                                  child: Wrap(
+                                    alignment: WrapAlignment.center,
+                                    spacing: 10,
+                                    children: [
+                                      SuggestionButton(
+                                          title: 'Summarise',
+                                          controller: controller),
+                                      SuggestionButton(
+                                          title: 'tell me a story',
+                                          controller: controller),
+                                      SuggestionButton(
+                                          title: 'Help me to write an email ',
+                                          controller: controller),
+                                      SuggestionButton(
+                                          title: 'tell me a joke in Hindi',
+                                          controller: controller),
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),
                           ),
                         )
                       : Obx(() => ListView.builder(
-                            physics: BouncingScrollPhysics(),
+                            physics: const BouncingScrollPhysics(),
                             itemCount: controller.qnAList.length,
                             itemBuilder: (context, index) {
                               final message = controller.qnAList[index];
@@ -172,7 +186,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       context: context,
                                       message: message.reply.toString(),
                                       isUser: false),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 10,
                                   )
                                 ],
@@ -181,7 +195,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           )),
                 );
               }),
-              SizedBox(
+              const SizedBox(
                 height: 120,
               )
             ],

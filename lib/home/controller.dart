@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:meta_mind/home/data/model/QnAModel.dart';
+import 'package:meta_mind/home/data/model/qnAModel.dart';
 import 'package:meta_mind/home/domain/repo/home_repo.dart';
 
 class Controller extends GetxController {
