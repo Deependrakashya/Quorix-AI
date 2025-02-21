@@ -1,56 +1,41 @@
 import 'dart:developer';
-
 import 'package:google_generative_ai/google_generative_ai.dart';
 
 class AIChatSession {
   final String apiKey;
   final String modelName;
   final GenerativeModel model;
-  late final ChatSession chatSession; // Corrected type
-  final List<Content> chatHistory = []; // Stores chat history
+  late ChatSession chatSession;
+  final List<Content> chatHistory = []; // Store messages dynamically
   final String botName = "Deep Mind AI";
   final String creatorName = "Deependra Kashyap";
 
   AIChatSession(this.apiKey, this.modelName)
       : model = GenerativeModel(model: modelName, apiKey: apiKey) {
-    // Initialize chat session correctly
-    log("Home repo $modelName");
-    chatSession = model.startChat(history: [
-      Content.text("Hi!"),
-      Content.model([
-        TextPart(
-            "Hello! I am $botName, created by $creatorName. How can I help you?")
-      ]),
-    ]);
+    log("Initializing AIChatSession with model: $modelName");
 
-    // Add initial history
-    chatHistory.addAll([
-      Content.text("Hi!"),
-      Content.model([
-        TextPart(
-            "Hello! I am $botName, created by $creatorName. How can I help you?")
-      ]),
-    ]);
+    // Restore history if available, else start fresh
+    chatSession = model.startChat(
+        history: chatHistory.isEmpty ? _getInitialMessages() : chatHistory);
   }
 
   Future<String> sendMessage(String userMessage) async {
     try {
-      // Check if user is asking "Who are you?"
       if (_isAskingWhoAmI(userMessage)) {
-        return "I am $botName, an AI assistant created by $creatorName. How can I assist you today?";
+        final botResponse =
+            "I am $botName, an AI assistant created by $creatorName. How can I assist you today?";
+        _addMessage(isUser: false, text: botResponse);
+        return botResponse;
       }
 
-      // Add user message to history
-      chatHistory.add(Content.text(userMessage));
-
-      // log(chatHistory[0].parts[0].toString());
+      // Add user message to chat history
+      _addMessage(isUser: true, text: userMessage);
 
       // Send message and maintain chat context
       final response = await chatSession.sendMessage(Content.text(userMessage));
 
       if (response.text != null) {
-        // Add AI response to history
-        chatHistory.add(Content.model([TextPart(response.text!)]));
+        _addMessage(isUser: false, text: response.text!);
         return response.text!;
       } else {
         return "No response from Gemini.";
@@ -60,7 +45,29 @@ class AIChatSession {
     }
   }
 
-  // Check if user asks about bot identity
+  /// Adds a message to chat history and updates session
+  void _addMessage({required bool isUser, required String text}) {
+    final newContent =
+        isUser ? Content.text(text) : Content.model([TextPart(text)]);
+    chatHistory.add(newContent);
+
+    // Update chat session with history
+    chatSession = model.startChat(history: chatHistory);
+    log("Chat history updated: ${chatHistory.length} messages.");
+  }
+
+  /// Provides initial bot message
+  static List<Content> _getInitialMessages() {
+    return [
+      Content.text("Hi!"),
+      Content.model([
+        TextPart(
+            "Hello! I am Deep Mind AI, created by Deependra Kashyap. How can I help you?")
+      ]),
+    ];
+  }
+
+  /// Checks if the user asks about bot identity
   bool _isAskingWhoAmI(String message) {
     final lowerMsg = message.toLowerCase();
     return lowerMsg.contains("who are you") ||

@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:meta_mind/home/data/model/qnAModel.dart';
 import 'package:meta_mind/home/domain/repo/home_repo.dart';
@@ -13,6 +14,15 @@ class Controller extends GetxController {
   TextEditingController textEditingController = TextEditingController();
   int id = 0;
   RxBool isloading = false.obs;
+  late AIChatSession aiChatSession;
+
+  void initializeChatSession() {
+    log("ai chatSession initialed");
+    aiChatSession = AIChatSession(
+      "AIzaSyBjwEg4HBG60ZZdtJsbaZ5-_XkGk5-F2kc",
+      aiModel.value,
+    );
+  }
 
   void sendQuery() async {
     newScreen.value = false;
@@ -24,9 +34,7 @@ class Controller extends GetxController {
 
       qnAList.add(QnAModel(id: id, ques: question, reply: ""));
 
-      final data = await AIChatSession(
-              'AIzaSyDXGt9gbIEMY8GG51qOoYaB5PEQEqh1pZM', aiModel.value)
-          .sendMessage(question);
+      final data = await aiChatSession.sendMessage(question);
       log(aiModel.toString());
 
       // Find and update the reply for the corresponding question

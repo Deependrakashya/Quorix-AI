@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meta_mind/home/controller.dart';
+import 'package:meta_mind/home/domain/repo/home_repo.dart';
 import 'package:meta_mind/home/widgets.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -14,11 +15,11 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final Controller controller = Controller();
   double _inputHeight = 50; // Initial height
-
   @override
   void initState() {
     super.initState();
     controller.textEditingController.addListener(_updateInputHeight);
+    controller.initializeChatSession();
   }
 
   void _updateInputHeight() {
