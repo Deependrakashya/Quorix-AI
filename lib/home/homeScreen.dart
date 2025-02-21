@@ -145,7 +145,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                 ),
                                 const SizedBox(height: 30),
-                                Container(
+                                SizedBox(
                                   width:
                                       MediaQuery.of(context).size.width * .75,
                                   child: Wrap(
@@ -209,8 +209,8 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 10),
               decoration: const BoxDecoration(
                 color: Colors.white,
-                boxShadow: const [
-                  BoxShadow(
+                boxShadow: [
+                  const BoxShadow(
                     color: Colors.grey,
                     spreadRadius: 2,
                     blurRadius: 10,

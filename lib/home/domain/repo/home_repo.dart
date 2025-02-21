@@ -14,7 +14,7 @@ class AIChatSession {
   AIChatSession(this.apiKey, this.modelName)
       : model = GenerativeModel(model: modelName, apiKey: apiKey) {
     // Initialize chat session correctly
-    log("Home repo " + modelName.toString());
+    log("Home repo $modelName");
     chatSession = model.startChat(history: [
       Content.text("Hi!"),
       Content.model([
