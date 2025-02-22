@@ -1,5 +1,7 @@
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:meta_mind/home/data/model/qnAModel.dart';
@@ -10,7 +12,12 @@ class Controller extends GetxController {
   RxString aiModel = 'gemini-2.0-flash-lite-preview-02-05'.obs;
   RxString response = ''.obs;
   var qnAList = <QnAModel>[].obs;
+  RxBool isharmful = false.obs;
+  RxBool isnotTrue = false.obs;
+  RxBool isnotHelpful = false.obs;
   TextEditingController textEditingController = TextEditingController();
+  TextEditingController feedbackTextEditingController = TextEditingController();
+
   int id = 0;
   RxBool isloading = false.obs;
   late AIChatSession aiChatSession;
@@ -29,6 +36,33 @@ class Controller extends GetxController {
     aiChatSession.chatHistory.clear();
 
     newScreen.value = true;
+  }
+
+  void reportMessage({
+    required String massege,
+  }) {
+    final db = FirebaseFirestore.instance;
+    db.collection("reports").add({
+      "message": massege,
+      "feedback": feedbackTextEditingController.text,
+      "isharmful": isharmful.value,
+      "isnotTrue": isnotTrue.value,
+      "isnotHelpful": isnotHelpful.value
+    });
+    feedbackTextEditingController.clear();
+  }
+
+  void handleCheckBox(
+      {required bool harmful,
+      required bool notTrue,
+      required bool notHelpful}) {
+    if (harmful) {
+      isharmful.value = !isharmful.value;
+    } else if (notTrue) {
+      isnotTrue.value = !isnotTrue.value;
+    } else {
+      isnotHelpful.value = !isnotHelpful.value;
+    }
   }
 
   void sendQuery() async {

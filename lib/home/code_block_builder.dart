@@ -32,8 +32,8 @@ class CodeBlockBuilder extends MarkdownElementBuilder {
           ),
         ),
         Positioned(
-          right: 2,
-          top: 0,
+          right: -5,
+          top: -5,
           child: IconButton(
             icon: const Icon(Icons.copy, size: 15, color: Colors.white),
             onPressed: () {

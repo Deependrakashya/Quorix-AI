@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:meta_mind/home/controller.dart';
 import 'package:meta_mind/home/widgets.dart';
@@ -153,13 +154,24 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       "Report Message",
                                                     ),
                                                     onTap: () {
-                                                      Navigator.pop(context);
-
+                                                      controller
+                                                          .feedbackTextEditingController
+                                                          .clear();
+                                                      controller.isharmful
+                                                          .value = false;
+                                                      controller.isnotHelpful
+                                                          .value = false;
+                                                      controller.isnotTrue
+                                                          .value = false;
                                                       Get.dialog(
                                                         Dialog(
                                                           child: ReportMessage(
-                                                            context: context,
-                                                          ),
+                                                              context: context,
+                                                              controller:
+                                                                  controller,
+                                                              message: message
+                                                                  .reply
+                                                                  .toString()),
                                                         ),
                                                       );
                                                     },
@@ -172,6 +184,18 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     title: Text(
                                                       'Copy Message',
                                                     ),
+                                                    onTap: () {
+                                                      Clipboard.setData(
+                                                          ClipboardData(
+                                                              text: message
+                                                                  .reply
+                                                                  .toString()));
+                                                      Get.snackbar(
+                                                          "Text Copied Successfully",
+                                                          colorText: Colors.red,
+                                                          "");
+                                                      Navigator.pop(context);
+                                                    },
                                                   ),
                                                 ],
                                               ),

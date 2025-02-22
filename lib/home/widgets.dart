@@ -106,7 +106,10 @@ Widget ChatMessage({
   );
 }
 
-Widget ReportMessage({required BuildContext context}) {
+Widget ReportMessage(
+    {required BuildContext context,
+    required String message,
+    required Controller controller}) {
   return Container(
     height: MediaQuery.of(context).size.height * .5,
     child: Column(
@@ -122,6 +125,7 @@ Widget ReportMessage({required BuildContext context}) {
           child: Container(
             margin: EdgeInsets.symmetric(horizontal: 5),
             child: TextField(
+              controller: controller.feedbackTextEditingController,
               maxLines: 5,
               decoration: InputDecoration(
                 hintText: 'Provide Your FeedBack',
@@ -140,20 +144,41 @@ Widget ReportMessage({required BuildContext context}) {
         ),
         Row(
           children: [
-            Checkbox(value: false, onChanged: (e) {}),
+            Obx(() {
+              return Checkbox(
+                  value: controller.isharmful.value,
+                  onChanged: (e) {
+                    controller.handleCheckBox(
+                        harmful: true, notTrue: false, notHelpful: false);
+                  });
+            }),
             Text('This is harmful/unsafe'),
           ],
         ),
         Row(
           children: [
-            Checkbox(value: false, onChanged: (e) {}),
+            Obx(() {
+              return Checkbox(
+                  value: controller.isnotTrue.value,
+                  onChanged: (e) {
+                    controller.handleCheckBox(
+                        harmful: false, notTrue: true, notHelpful: false);
+                  });
+            }),
             Text('This is not true'),
           ],
         ),
         Row(
           children: [
-            Checkbox(value: false, onChanged: (e) {}),
-            Text('This is Helpful'),
+            Obx(() {
+              return Checkbox(
+                  value: controller.isnotHelpful.value,
+                  onChanged: (e) {
+                    controller.handleCheckBox(
+                        harmful: false, notTrue: false, notHelpful: true);
+                  });
+            }),
+            Text('This is not Helpful'),
           ],
         ),
         InkWell(
@@ -165,7 +190,16 @@ Widget ReportMessage({required BuildContext context}) {
             ),
             padding: EdgeInsets.all(5),
             child: TextButton(
-              onPressed: () {},
+              onPressed: () {
+                controller.reportMessage(
+                  massege: message,
+                );
+                controller.isharmful.value = false;
+                controller.isnotHelpful.value = false;
+                controller.isnotTrue.value = false;
+                controller.textEditingController.clear();
+                Navigator.pop(context, true);
+              },
               child: Text('Submint', style: TextStyle(color: Colors.white)),
             ),
           ),
