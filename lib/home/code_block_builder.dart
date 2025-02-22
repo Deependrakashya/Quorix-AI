@@ -19,23 +19,26 @@ class CodeBlockBuilder extends MarkdownElementBuilder {
             borderRadius: BorderRadius.circular(8),
           ),
           width: double.infinity,
-          child: SelectableText(
-            codeText,
-            style: const TextStyle(
-              fontSize: 14,
-              color: Colors.white,
-              fontFamily: 'monospace',
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: SelectableText(
+              codeText,
+              style: const TextStyle(
+                fontSize: 12,
+                color: Colors.amber,
+                fontFamily: 'monospace',
+              ),
             ),
           ),
         ),
         Positioned(
-          right: 5,
-          top: 5,
+          right: 2,
+          top: 0,
           child: IconButton(
-            icon: const Icon(Icons.copy, size: 20, color: Colors.white),
+            icon: const Icon(Icons.copy, size: 15, color: Colors.white),
             onPressed: () {
               Clipboard.setData(ClipboardData(text: codeText));
-              Get.snackbar('titile', "text copied");
+              Get.snackbar('Code', "Copied Successfully");
             },
           ),
         ),

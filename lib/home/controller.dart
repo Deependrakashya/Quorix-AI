@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:meta_mind/home/data/model/qnAModel.dart';
 import 'package:meta_mind/home/domain/repo/home_repo.dart';
@@ -22,6 +21,14 @@ class Controller extends GetxController {
       "AIzaSyBjwEg4HBG60ZZdtJsbaZ5-_XkGk5-F2kc",
       aiModel.value,
     );
+  }
+
+  void newScreenClear() {
+    textEditingController.clear();
+    qnAList.clear();
+    aiChatSession.chatHistory.clear();
+
+    newScreen.value = true;
   }
 
   void sendQuery() async {
