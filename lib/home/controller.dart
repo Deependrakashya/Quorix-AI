@@ -4,12 +4,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:meta_mind/home/data/model/qnAModel.dart';
-import 'package:meta_mind/home/domain/repo/home_repo.dart';
+import 'package:saraswati_ai/home/data/model/qnAModel.dart';
+import 'package:saraswati_ai/home/domain/repo/home_repo.dart';
 
 class Controller extends GetxController {
   RxBool newScreen = true.obs;
-  RxString aiModel = 'gemini-2.0-flash-lite-preview-02-05'.obs;
+  RxString aiModel = 'gemini-2.0-flash'.obs;
   RxString response = ''.obs;
   var qnAList = <QnAModel>[].obs;
   RxBool isharmful = false.obs;
@@ -17,10 +17,27 @@ class Controller extends GetxController {
   RxBool isnotHelpful = false.obs;
   TextEditingController textEditingController = TextEditingController();
   TextEditingController feedbackTextEditingController = TextEditingController();
+  final ScrollController scrollController = ScrollController();
 
   int id = 0;
   RxBool isloading = false.obs;
   late AIChatSession aiChatSession;
+  @override
+  void onInit() {
+    super.onInit();
+
+    ever(qnAList, (_) {
+      Future.delayed(const Duration(milliseconds: 100), () {
+        if (scrollController.hasClients) {
+          scrollController.animateTo(
+            scrollController.position.maxScrollExtent,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeOut,
+          );
+        }
+      });
+    });
+  }
 
   void initializeChatSession() {
     log("ai chatSession initialed");
@@ -74,7 +91,7 @@ class Controller extends GetxController {
       isloading.value = true;
 
       qnAList.add(QnAModel(id: id, ques: question, reply: ""));
-
+      scrollBottom();
       final data = await aiChatSession.sendMessage(question);
       log(aiModel.toString());
 
@@ -91,7 +108,20 @@ class Controller extends GetxController {
 
         newScreen.value = false;
         response.value = data;
+        scrollBottom();
       }
     }
+  }
+
+  void scrollBottom() {
+    Future.delayed(const Duration(milliseconds: 100), () {
+      if (scrollController.hasClients) {
+        scrollController.animateTo(
+          scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 100),
+          curve: Curves.easeInCirc, // better UX
+        );
+      }
+    });
   }
 }

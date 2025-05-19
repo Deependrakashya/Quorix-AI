@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:get/get.dart';
-import 'package:meta_mind/firebase_options.dart';
-import 'package:meta_mind/home/homeScreen.dart';
+import 'package:saraswati_ai/firebase_options.dart';
+import 'package:saraswati_ai/home/homeScreen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,7 +15,7 @@ void main() async {
 
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent, // Makes status bar transparent
+      statusBarColor: Colors.black, // Makes status bar transparent
       systemNavigationBarColor: Colors.transparent, // Transparent navbar
       systemNavigationBarIconBrightness: Brightness.dark,
       systemNavigationBarContrastEnforced: false, // Avoids forced contrast
@@ -35,12 +35,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       color: Colors.white,
-      title: 'Deep Mind AI',
+      title: 'Saraswati AI',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         brightness: Brightness.light,
         scaffoldBackgroundColor: Colors.white,
-        primaryColor: Colors.blue,
       ),
       home: const HomeScreen(),
     );

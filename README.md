@@ -1,4 +1,4 @@
-# meta_mind
+# saraswati_ai
 
 A new Flutter project.
 

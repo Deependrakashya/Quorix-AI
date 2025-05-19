@@ -7,7 +7,7 @@ class AIChatSession {
   final GenerativeModel model;
   late ChatSession chatSession;
   final List<Content> chatHistory = []; // Store messages dynamically
-  final String botName = "Deep Mind AI";
+  final String botName = "Saraswati AI";
   final String creatorName = "Deependra Kashyap";
 
   AIChatSession(this.apiKey, this.modelName)
@@ -20,6 +20,7 @@ class AIChatSession {
   }
 
   Future<String> sendMessage(String userMessage) async {
+    log(modelName);
     try {
       if (_isAskingWhoAmI(userMessage)) {
         final botResponse =
@@ -41,7 +42,7 @@ class AIChatSession {
         return "No response from Gemini.";
       }
     } catch (e) {
-      return "Error: Something went wrong. Please try again.";
+      return "Error: Something went wrong. Please try again. $e";
     }
   }
 
@@ -62,7 +63,7 @@ class AIChatSession {
       Content.text("Hi!"),
       Content.model([
         TextPart(
-            "Hello! I am Deep Mind AI, created by Deependra Kashyap. How can I help you?")
+            "Hello! I am Saraswati AI, created by Deependra Kashyap. How can I help you?")
       ]),
     ];
   }

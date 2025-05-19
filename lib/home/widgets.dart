@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:get/get.dart';
-import 'package:meta_mind/home/code_block_builder.dart';
-import 'package:meta_mind/home/controller.dart';
+import 'package:saraswati_ai/home/code_block_builder.dart';
+import 'package:saraswati_ai/home/controller.dart';
 
 Widget CustomDrawer(BuildContext context) {
   return Drawer(
@@ -224,7 +224,7 @@ Widget cusotmDropDownButton({required Controller controller}) {
         overflow: TextOverflow.ellipsis,
       ),
       hint: const Text(
-        'Deep Mind AI',
+        'Saraswati AI',
         style: TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.bold,
@@ -257,7 +257,7 @@ Widget cusotmDropDownButton({required Controller controller}) {
       onChanged: (newValue) {
         switch (newValue) {
           case "Good Strength & Speed":
-            controller.aiModel.value = 'gemini-2.0-flash-lite-preview-02-05';
+            controller.aiModel.value = 'gemini-2.0-flash';
             break;
           case "Fast inference & extended thinking":
             controller.aiModel.value = 'gemini-2.0-flash-thinking-exp-01-21';
@@ -277,11 +277,15 @@ Widget cusotmDropDownButton({required Controller controller}) {
 
         if (newValue != 'AI Models  🚀 ') {
           Get.snackbar(
+            backgroundColor: Colors.black,
             margin: const EdgeInsets.all(20),
             reverseAnimationCurve: Curves.fastLinearToSlowEaseIn,
             forwardAnimationCurve: Curves.easeOutCirc,
             duration: const Duration(seconds: 5),
-            icon: Icon(Icons.rocket_launch_outlined),
+            icon: Icon(
+              Icons.rocket_launch_outlined,
+              color: Colors.amber,
+            ),
             colorText: Colors.amber,
             newValue.toString(),
             "Model Changed Successfully",

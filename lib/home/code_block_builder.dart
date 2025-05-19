@@ -38,7 +38,15 @@ class CodeBlockBuilder extends MarkdownElementBuilder {
             icon: const Icon(Icons.copy, size: 15, color: Colors.white),
             onPressed: () {
               Clipboard.setData(ClipboardData(text: codeText));
-              Get.snackbar('Code', "Copied Successfully");
+              Get.snackbar(
+                  backgroundColor: Colors.black,
+                  icon: Icon(
+                    Icons.code,
+                    color: Colors.amber,
+                    size: 30,
+                  ),
+                  'Code',
+                  "Copied Successfully");
             },
           ),
         ),
