@@ -1,11 +1,11 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:quorix_ai/home/data/model/qnAModel.dart';
+import 'package:quorix_ai/home/domain/repo/home_repo.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:saraswati_ai/home/data/model/qnAModel.dart';
-import 'package:saraswati_ai/home/domain/repo/home_repo.dart';
 
 class Controller extends GetxController {
   RxBool newScreen = true.obs;
@@ -27,11 +27,11 @@ class Controller extends GetxController {
     super.onInit();
 
     ever(qnAList, (_) {
-      Future.delayed(const Duration(milliseconds: 100), () {
+      Future.delayed(const Duration(milliseconds: 500), () {
         if (scrollController.hasClients) {
           scrollController.animateTo(
             scrollController.position.maxScrollExtent,
-            duration: const Duration(milliseconds: 300),
+            duration: const Duration(milliseconds: 1000),
             curve: Curves.easeOut,
           );
         }
@@ -89,7 +89,7 @@ class Controller extends GetxController {
       String question = textEditingController.text;
       textEditingController.clear();
       isloading.value = true;
-
+      HapticFeedback.lightImpact();
       qnAList.add(QnAModel(id: id, ques: question, reply: ""));
       scrollBottom();
       final data = await aiChatSession.sendMessage(question);
@@ -118,7 +118,7 @@ class Controller extends GetxController {
       if (scrollController.hasClients) {
         scrollController.animateTo(
           scrollController.position.maxScrollExtent,
-          duration: const Duration(milliseconds: 100),
+          duration: const Duration(milliseconds: 1000),
           curve: Curves.easeInCirc, // better UX
         );
       }

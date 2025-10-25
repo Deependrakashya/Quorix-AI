@@ -1,4 +1,4 @@
-# saraswati_ai
+# DevQuorix AI
 
 A new Flutter project.
 

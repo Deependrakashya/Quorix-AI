@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:flutter/services.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 
 class AIChatSession {
@@ -7,7 +8,7 @@ class AIChatSession {
   final GenerativeModel model;
   late ChatSession chatSession;
   final List<Content> chatHistory = []; // Store messages dynamically
-  final String botName = "Saraswati AI";
+  final String botName = "Quorix AI";
   final String creatorName = "Deependra Kashyap";
 
   AIChatSession(this.apiKey, this.modelName)
@@ -37,6 +38,7 @@ class AIChatSession {
 
       if (response.text != null) {
         _addMessage(isUser: false, text: response.text!);
+        HapticFeedback.lightImpact();
         return response.text!;
       } else {
         return "No response from Gemini.";

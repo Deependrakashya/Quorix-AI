@@ -1,9 +1,9 @@
+import 'package:quorix_ai/home/controller.dart';
+import 'package:quorix_ai/home/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:saraswati_ai/home/controller.dart';
-import 'package:saraswati_ai/home/widgets.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -36,6 +36,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
+
       body: SafeArea(
         child: Stack(
           alignment: AlignmentDirectional.topCenter,
@@ -43,7 +45,6 @@ class _HomeScreenState extends State<HomeScreen> {
             Column(
               children: [
                 Container(
-                  color: Colors.white,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -85,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     // Ensures it takes available space
                     child: controller.newScreen.value
                         ? Container(
-                            color: Colors.white,
+                            color: Colors.black,
                             child: Center(
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -134,7 +135,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           )
                         : Obx(
                             () => Container(
-                              color: Colors.white,
                               child: ListView.builder(
                                 physics: const BouncingScrollPhysics(),
                                 controller: controller.scrollController,
@@ -154,76 +154,113 @@ class _HomeScreenState extends State<HomeScreen> {
                                           showModalBottomSheet(
                                             context: context,
                                             builder: (BuildContext context) {
-                                              return Container(
-                                                padding: EdgeInsets.all(16),
-                                                child: Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  children: [
-                                                    ListTile(
-                                                      leading: Icon(
-                                                        Icons.report,
-                                                        color: Colors.red,
+                                              return SafeArea(
+                                                child: Container(
+                                                  padding: EdgeInsets.all(16),
+                                                  child: Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: [
+                                                      ListTile(
+                                                        leading: Icon(
+                                                          Icons.report,
+                                                          color: Colors.red,
+                                                        ),
+                                                        title: Text(
+                                                          "Report Message",
+                                                        ),
+                                                        onTap: () {
+                                                          controller
+                                                              .feedbackTextEditingController
+                                                              .clear();
+                                                          controller.isharmful
+                                                              .value = false;
+                                                          controller
+                                                              .isnotHelpful
+                                                              .value = false;
+                                                          controller.isnotTrue
+                                                              .value = false;
+                                                          Get.dialog(
+                                                            Dialog(
+                                                              child: ReportMessage(
+                                                                  context:
+                                                                      context,
+                                                                  controller:
+                                                                      controller,
+                                                                  message: message
+                                                                      .reply
+                                                                      .toString()),
+                                                            ),
+                                                          );
+                                                        },
                                                       ),
-                                                      title: Text(
-                                                        "Report Message",
-                                                      ),
-                                                      onTap: () {
-                                                        controller
-                                                            .feedbackTextEditingController
-                                                            .clear();
-                                                        controller.isharmful
-                                                            .value = false;
-                                                        controller.isnotHelpful
-                                                            .value = false;
-                                                        controller.isnotTrue
-                                                            .value = false;
-                                                        Get.dialog(
-                                                          Dialog(
-                                                            child: ReportMessage(
-                                                                context:
-                                                                    context,
-                                                                controller:
-                                                                    controller,
-                                                                message: message
-                                                                    .reply
-                                                                    .toString()),
-                                                          ),
-                                                        );
-                                                      },
-                                                    ),
-                                                    ListTile(
-                                                      leading: Icon(
-                                                        Icons.copy,
-                                                        color: Colors.black,
-                                                      ),
-                                                      title: Text(
-                                                        'Copy Message',
-                                                      ),
-                                                      onTap: () {
-                                                        Clipboard.setData(
-                                                            ClipboardData(
-                                                                text: message
-                                                                    .reply
-                                                                    .toString()));
-                                                        Get.snackbar(
+                                                      ListTile(
+                                                        leading: Icon(
+                                                          Icons.copy,
+                                                          color: Colors.black,
+                                                        ),
+                                                        title: Text(
+                                                          'Copy Message',
+                                                        ),
+                                                        onTap: () {
+                                                          Clipboard.setData(
+                                                              ClipboardData(
+                                                                  text: message
+                                                                      .reply
+                                                                      .toString()));
+                                                          Get.snackbar(
+                                                            "Text Copied Successfully", // Title
+                                                            "", // Message (empty since title is the message)
                                                             backgroundColor:
-                                                                Colors.black,
-                                                            "Text Copied Successfully",
-                                                            icon: Icon(
+                                                                Colors
+                                                                    .grey
+                                                                    .withValues(
+                                                                        alpha:
+                                                                            .4),
+                                                            snackPosition:
+                                                                SnackPosition
+                                                                    .TOP, // or SnackPosition.TOP
+                                                            margin:
+                                                                const EdgeInsets
+                                                                    .symmetric(
+                                                                    horizontal:
+                                                                        10,
+                                                                    vertical:
+                                                                        20),
+                                                            borderRadius: 12,
+                                                            icon: const Icon(
                                                               Icons
                                                                   .paste_outlined,
                                                               color:
                                                                   Colors.amber,
                                                               size: 30,
                                                             ),
-                                                            colorText:
-                                                                Colors.amber,
-                                                            "");
-                                                        Navigator.pop(context);
-                                                      },
-                                                    ),
-                                                  ],
+                                                            titleText:
+                                                                const Center(
+                                                              child: Text(
+                                                                "Text Copied Successfully",
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            messageText:
+                                                                const SizedBox
+                                                                    .shrink(), // hide default message
+                                                          );
+                                                          HapticFeedback
+                                                              .vibrate();
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
                                               );
                                             },
@@ -244,69 +281,74 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                   );
                 }),
-                const SizedBox(height: 50),
+                const SizedBox(height: 80),
               ],
             ),
             Positioned(
-                bottom: 0,
-                child: Container(
-                  padding: const EdgeInsets.all(10),
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: Colors.black, width: 1),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey,
-                        spreadRadius: 2,
-                        blurRadius: 10,
-                      ),
-                    ],
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20),
+              bottom: 0,
+              child: Container(
+                padding: const EdgeInsets.all(10),
+                constraints: BoxConstraints(
+                  maxHeight: MediaQuery.of(context).size.height * 0.5,
+                ),
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  border: Border.all(color: Colors.white, width: .5),
+                  boxShadow: [
+                    BoxShadow(
+                      color:
+                          Colors.white.withOpacity(0.1), // subtle white shadow
+                      spreadRadius: 2,
+                      blurRadius: 10,
                     ),
+                  ],
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
                   ),
+                ),
+                child: SingleChildScrollView(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Expanded(
+                          Flexible(
                             child: TextField(
                               controller: controller.textEditingController,
                               autofocus: true,
-                              maxLines: null, // Expands vertically as you type
-                              minLines: 1, // Starts with one line
+                              maxLines: null,
                               keyboardType: TextInputType.multiline,
                               textInputAction: TextInputAction.newline,
+                              style: const TextStyle(color: Colors.white),
                               decoration: const InputDecoration(
-                                hintText: 'Chat with Saraswati AI',
+                                hintText: 'Chat with Quorix AI',
+                                hintStyle: TextStyle(color: Colors.white70),
                                 border: OutlineInputBorder(
                                   borderSide: BorderSide.none,
                                 ),
                                 filled: true,
-                                fillColor: Color(0xFFF5F5F5),
+                                fillColor: Color.fromARGB(255, 34, 33, 33),
                                 contentPadding: EdgeInsets.symmetric(
-                                    vertical: 10.0, horizontal: 15.0),
+                                    vertical: 12, horizontal: 15),
                               ),
                             ),
                           ),
                           Obx(() {
                             return IconButton(
-                              onPressed: () {
-                                controller.isloading.value
-                                    ? null
-                                    : controller.sendQuery();
-                              },
+                              onPressed: controller.isloading.value
+                                  ? null
+                                  : controller.sendQuery,
                               icon: Icon(
                                 controller.isloading.value
-                                    ? Icons.search_off
-                                    : CupertinoIcons.arrow_up_circle_fill,
+                                    ? Icons.hourglass_empty
+                                    : CupertinoIcons.search,
                                 size: 30,
                                 color: controller.isloading.value
                                     ? Colors.grey
-                                    : Colors.black,
+                                    : Colors.white,
                               ),
                             );
                           }),
@@ -314,7 +356,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ],
                   ),
-                ))
+                ),
+              ),
+            )
           ],
         ),
       ),

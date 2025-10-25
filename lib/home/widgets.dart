@@ -1,8 +1,8 @@
+import 'package:quorix_ai/home/code_block_builder.dart';
+import 'package:quorix_ai/home/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:get/get.dart';
-import 'package:saraswati_ai/home/code_block_builder.dart';
-import 'package:saraswati_ai/home/controller.dart';
 
 Widget CustomDrawer(BuildContext context) {
   return Drawer(
@@ -22,7 +22,7 @@ Widget CustomDrawer(BuildContext context) {
               child: const Text(
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                "Drawer Item 1Drawer Item 1Drawer Item 1Drawer Item 1",
+                "",
                 style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
               ),
             );
@@ -40,12 +40,13 @@ Widget SuggestionButton({
   return InkWell(
     onTap: () {
       controller.textEditingController.text = title;
+      controller.sendQuery();
     },
     child: Container(
       margin: const EdgeInsets.symmetric(vertical: 5),
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.black),
+        border: Border.all(color: Colors.white),
         borderRadius: BorderRadius.circular(30),
       ),
       child: Text(
@@ -65,12 +66,14 @@ Widget ChatMessage({
     alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
     child: Container(
       constraints: BoxConstraints(
-        maxWidth: MediaQuery.of(context).size.width * 0.85, // Limit width
+        maxWidth: MediaQuery.of(context).size.width * 0.94, // Limit width
       ),
       margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(
-        color: isUser ? Colors.black : Colors.grey[300],
+        color: isUser
+            ? Colors.white.withValues(alpha: .6)
+            : Colors.white.withValues(alpha: .6),
         borderRadius: BorderRadius.only(
           topLeft: const Radius.circular(20),
           topRight: const Radius.circular(20),
@@ -90,15 +93,15 @@ Widget ChatMessage({
               selectable: false,
               data: message.toString(),
               styleSheet: MarkdownStyleSheet(
-                p: const TextStyle(fontSize: 16),
+                p: const TextStyle(fontSize: 16, color: Colors.black),
                 h1: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black),
                 h2: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black),
               ),
               builders: {'code': CodeBlockBuilder()},
             ),
@@ -213,7 +216,7 @@ Widget ReportMessage(
 Widget cusotmDropDownButton({required Controller controller}) {
   return DropdownButtonHideUnderline(
     child: DropdownButton<String>(
-      dropdownColor: Colors.white,
+      dropdownColor: Colors.white.withValues(alpha: .8),
       borderRadius: BorderRadius.circular(20),
       icon: const Icon(
         Icons.touch_app_outlined,
@@ -223,12 +226,15 @@ Widget cusotmDropDownButton({required Controller controller}) {
       style: const TextStyle(
         overflow: TextOverflow.ellipsis,
       ),
-      hint: const Text(
-        'Saraswati AI',
-        style: TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-          color: Colors.black,
+      hint: Container(
+        margin: EdgeInsets.only(left: 30),
+        child: Text(
+          'Quorix AI',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
         ),
       ),
       isExpanded: true, // Allows content to fit properly
@@ -277,7 +283,7 @@ Widget cusotmDropDownButton({required Controller controller}) {
 
         if (newValue != 'AI Models  🚀 ') {
           Get.snackbar(
-            backgroundColor: Colors.black,
+            backgroundColor: Colors.grey.withValues(alpha: .2),
             margin: const EdgeInsets.all(20),
             reverseAnimationCurve: Curves.fastLinearToSlowEaseIn,
             forwardAnimationCurve: Curves.easeOutCirc,
@@ -288,7 +294,7 @@ Widget cusotmDropDownButton({required Controller controller}) {
             ),
             colorText: Colors.amber,
             newValue.toString(),
-            "Model Changed Successfully",
+            "Model Updated !",
           );
         }
       },

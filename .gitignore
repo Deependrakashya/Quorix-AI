@@ -37,7 +37,7 @@ test/
 ios/
 windows/
 android/
-
+.jks
 
 # Symbolication related
 app.*.symbols
