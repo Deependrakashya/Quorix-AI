@@ -1,16 +1,27 @@
-# DevQuorix AI
+# 🤖 Quorix AI 
 
-A new Flutter project.
+An **AI-powered chatbot app** enabling real-time conversations with **multiple Gemini models**.  
+Built to deliver **intelligent responses** and ensure a **smooth, responsive user experience**.
 
-## Getting Started
+## ✨ Features
+- 🔹 Multi-model Gemini integration  
+- 🔹 Real-time AI chat with streaming responses  
+- 🔹 Clean, modern UI built with Flutter  
+- 🔹 Fast and lightweight performance  
 
-This project is a starting point for a Flutter application.
+## 🚀 Tech Stack
+- **Framework:** Flutter  
+- **State Management:** GetX  
+- **Backend:** Gemini API  
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## 📱 Download
+[👉 Download APK](https://github.com/Deependrakashya/Quorix-AI/releases/download/release/app-release.apk)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 🧠 Author
+Developed by **Deependra Kashyap**
+
+---
+
+> “Crafted for seamless AI conversations and next-gen mobile experiences.”
+
